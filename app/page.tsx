@@ -117,7 +117,7 @@ export default function Home() {
       const response = await fetch(`${API_URL}/all-data`);
       const data = await response.json();
 
-      const projectsWithPreviews = data.projects.map(project => ({
+      const projectsWithPreviews = data.projects.map((project: any) => ({
         ...project,
         previewSlide: project.slides[0] || null
       }));
