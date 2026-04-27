@@ -496,7 +496,7 @@ export default function Home() {
                     color: 'black'
                   }}
                 >
-                  {project.title.split('.').map((part, i, arr) => (
+                  {project.title.split('.').map((part: string, i: number, arr: string[]) => (
                     i === arr.length - 1 ? part : (
                       <span key={i}>
                         {part}
