@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default function Home() {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<any[]>([]);
   const [hoveredProject, setHoveredProject] = useState<any>(null);
   const [previewSlide, setPreviewSlide] = useState<any>(null);
   const [previewFadeIn, setPreviewFadeIn] = useState(false);
@@ -474,7 +474,7 @@ export default function Home() {
           zIndex: 100
         }}>
           <div className="project-titles">
-            {projects.map((project, index) => (
+            {projects.map((project: any, index: number) => (
               <span key={project.id} className="project-title-item">
                 <span
                   onMouseEnter={() => handleProjectHover(project)}
@@ -568,7 +568,7 @@ export default function Home() {
                 gap: '1rem',
                 width: '100%'
               }}>
-                {previewSlide.images.map((img) => (
+                {previewSlide.images.map((img: any) => (
                   <div
                     key={img.id}
                     style={{
