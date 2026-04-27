@@ -91,6 +91,8 @@ export default function ProjectPage() {
   };
   
   const preloadAllImages = () => {
+    if (!window.globalSlidesCache) return;
+    
     const { allSlides } = window.globalSlidesCache;
     let imageIndex = 0;
     
