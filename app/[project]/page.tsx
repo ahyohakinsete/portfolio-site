@@ -60,9 +60,9 @@ export default function ProjectPage() {
       const data = await response.json();
       console.log('Received data:', data);
       
-      const allSlides = [];
-      data.projects.forEach(project => {
-        project.slides.forEach((slide, idx) => {
+      const allSlides: any[] = [];
+      data.projects.forEach((project: any) => {
+        project.slides.forEach((slide: any, idx: number) => {
           allSlides.push({
             ...slide,
             projectId: project.id,
