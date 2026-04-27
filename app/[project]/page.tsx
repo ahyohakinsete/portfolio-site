@@ -148,7 +148,8 @@ export default function ProjectPage() {
       window.allSlidesData = {
         allSlides: window.globalSlidesCache.allSlides,
         totalSlides: window.globalSlidesCache.totalSlides,
-        currentProjectStartIndex: currentSlideGlobalIndex
+        currentProjectStartIndex: currentSlideGlobalIndex,
+        currentGlobalIndex: currentSlideGlobalIndex
       };
     }
     
