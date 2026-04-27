@@ -145,7 +145,7 @@ export default function Home() {
     }
   };
 
-  const handleProjectClick = (project) => {
+  const handleProjectClick = (project: any) => {
     // Keep the preview visible and fade out only the project titles
     setFadeOut(true);
     // Don't clear previewSlide here - let it stay visible during transition
