@@ -7,13 +7,13 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default function Home() {
   const [projects, setProjects] = useState([]);
-  const [hoveredProject, setHoveredProject] = useState(null);
-  const [previewSlide, setPreviewSlide] = useState(null);
+  const [hoveredProject, setHoveredProject] = useState<any>(null);
+  const [previewSlide, setPreviewSlide] = useState<any>(null);
   const [previewFadeIn, setPreviewFadeIn] = useState(false);
   const [showNav, setShowNav] = useState(false);
   const [showArrowHint, setShowArrowHint] = useState(false);
-  const [arrowHoverTimeout, setArrowHoverTimeout] = useState(null);
-  const [hoveredNav, setHoveredNav] = useState(null);
+  const [arrowHoverTimeout, setArrowHoverTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [fadeIn, setFadeIn] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [fullPageFade, setFullPageFade] = useState(false);
@@ -79,7 +79,7 @@ export default function Home() {
     setFadeIn(true);
     
     // Keyboard navigation
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowUp') {
         e.preventDefault();
         cyclePages();
@@ -128,7 +128,7 @@ export default function Home() {
     }
   };
 
-  const handleProjectHover = (project) => {
+  const handleProjectHover = (project: any) => {
     setHoveredProject(project);
     
     // If there's already a preview showing, fade it out first
@@ -584,7 +584,7 @@ export default function Home() {
                       style={{
                         width: '100%',
                         height: 'auto',
-                        display: 'block'
+                        display: 'block
                       }}
                     />
                   </div>
