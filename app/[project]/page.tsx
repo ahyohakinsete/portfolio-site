@@ -740,7 +740,7 @@ export default function ProjectPage() {
               gap: '1rem',
               width: '100%'
             }}>
-              {currentSlide.images.map((img) => {
+              {currentSlide.images.map((img: any) => {
                 const isSingleImage = currentSlide.images.length === 1;
                 const mobileColumnsLeft = isSingleImage ? 0 : Math.floor(img.columnsLeft / 8);
                 const mobileColumnsWide = isSingleImage ? 2 : Math.max(1, Math.ceil(img.columnsWide / 8));
@@ -776,7 +776,7 @@ export default function ProjectPage() {
               gap: '1rem',
               width: '100%'
             }}>
-              {currentSlide.images.map((img) => (
+              {currentSlide.images.map((img: any) => (
                 <div
                   key={img.id}
                   style={{
