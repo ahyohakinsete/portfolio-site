@@ -97,8 +97,8 @@ export default function Thumbnails() {
       const data = await response.json();
 
       // Flatten all slides from all projects
-      const flattenedSlides = data.projects.flatMap(project => 
-        project.slides.map(slide => ({
+      const flattenedSlides = data.projects.flatMap((project: any) =>  
+        project.slides.map((slide: any) => ({
           ...slide,
           projectTitle: project.title,
           projectSlug: project.title.toLowerCase().replace(/\s+/g, '-')
