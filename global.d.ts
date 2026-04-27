@@ -10,6 +10,7 @@ interface AllSlidesData {
   allSlides: any[];
   totalSlides: number;
   currentGlobalIndex: number;
+  currentProjectStartIndex: number;
 }
 
 declare global {
