@@ -1,15 +1,10 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +14,40 @@
   }
 }
 
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+}
+
 body {
-  background: var(--background);
   color: var(--foreground);
+  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.1em; /* 11px on small screens */
+  line-height: 2.0em;
+  letter-spacing: 0.05em;
+}
+
+
+.hollow-period {
+  display: inline-block;
+  height: 0.1em; /* Scale with font size */
+  width: 0.1em;  /* Scale with font size */
+  margin: 0.05em 0.05em 0 0.02em; /* Scale margins too */
+  vertical-align: baseline;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='none' stroke='black' stroke-width='3'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Scale up on larger screens */
+@media (min-width: 1024px) {
+  body {
+    font-size: 1.3em; /* 13px on desktop */
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }
