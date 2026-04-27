@@ -88,7 +88,7 @@ export default function Home() {
 
     // Prevent overscroll bounce at top
     let lastScrollY = 0;
-    const preventOverscroll = (e) => {
+    const preventOverscroll = (e: Event) => {
       const currentScrollY = window.scrollY;
       
       // If at the top and trying to scroll up
