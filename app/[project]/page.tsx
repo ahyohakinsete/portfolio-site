@@ -103,7 +103,7 @@ export default function ProjectPage() {
       imageIndex++;
       
       if (slide.images && slide.images.length > 0) {
-        slide.images.forEach(img => {
+        slide.images.forEach((img: any) => {
           const image = new Image();
           image.src = img.url;
         });
