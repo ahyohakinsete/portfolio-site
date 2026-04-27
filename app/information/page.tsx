@@ -7,7 +7,7 @@ export default function Information() {
   const [showNav, setShowNav] = useState(false);
   const [hoveredNav, setHoveredNav] = useState(null);
   const [showArrowHint, setShowArrowHint] = useState(false);
-  const [arrowHoverTimeout, setArrowHoverTimeout] = useState(null);
+  const [arrowHoverTimeout, setArrowHoverTimeout] = useState<NodeJS.Timeout | null>(null);
   const [fadeIn, setFadeIn] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
