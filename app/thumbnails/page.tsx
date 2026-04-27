@@ -113,7 +113,7 @@ export default function Thumbnails() {
     }
   };
 
-  const handleSlideClick = (slide) => {
+  const handleSlideClick = (slide: any) => {
     // Trigger fade out
     setFadeOut(true);
     
