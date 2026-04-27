@@ -25,7 +25,7 @@ export default function Information() {
     // Trigger fade-in
     setFadeIn(true);
     
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowUp') {
         e.preventDefault();
         cyclePages();
