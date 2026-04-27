@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export default function Information() {
   const [showNav, setShowNav] = useState(false);
-  const [hoveredNav, setHoveredNav] = useState(null);
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [showArrowHint, setShowArrowHint] = useState(false);
   const [arrowHoverTimeout, setArrowHoverTimeout] = useState<NodeJS.Timeout | null>(null);
   const [fadeIn, setFadeIn] = useState(false);
