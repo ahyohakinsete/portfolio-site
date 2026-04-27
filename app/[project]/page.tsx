@@ -9,13 +9,13 @@ const GRID_COLUMNS = 16;
 export default function ProjectPage() {
   const params = useParams();
   const router = useRouter();
-  const [project, setProject] = useState(null);
-  const [slides, setSlides] = useState([]);
+  const [project, setProject] = useState<any>(null);
+  const [slides, setSlides] = useState<any[]>([]);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [showNav, setShowNav] = useState(false);
-  const [hoveredNav, setHoveredNav] = useState(null);
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [hoverState, setHoverState] = useState('counter'); // 'counter', 'hint', 'arrows'
-  const [hoverTimeout, setHoverTimeout] = useState(null);
+  const [hoverTimeout, setHoverTimeout] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [fadeIn, setFadeIn] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
@@ -140,15 +140,17 @@ export default function ProjectPage() {
     
     setSlides(foundProject.slides);
     
-    const currentSlideGlobalIndex = window.globalSlidesCache.allSlides.findIndex(s => 
+    const currentSlideGlobalIndex = window.globalSlidesCache?.allSlides.findIndex((s: any) => 
       s.projectId === foundProject.id && s.id === foundProject.slides[0]?.id
-    );
+    ) ?? -1;
     
-    window.allSlidesData = {
-      allSlides: window.globalSlidesCache.allSlides,
-      totalSlides: window.globalSlidesCache.totalSlides,
-      currentProjectStartIndex: currentSlideGlobalIndex
-    };
+    if (window.globalSlidesCache) {
+      window.allSlidesData = {
+        allSlides: window.globalSlidesCache.allSlides,
+        totalSlides: window.globalSlidesCache.totalSlides,
+        currentProjectStartIndex: currentSlideGlobalIndex
+      };
+    }
     
     setLoading(false);
   };
@@ -169,7 +171,7 @@ export default function ProjectPage() {
   useEffect(() => {
     if (slides.length === 0 || !window.allSlidesData) return;
     
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
         navigateToPreviousSlide();
@@ -190,6 +192,7 @@ export default function ProjectPage() {
   }, [slides.length, currentSlideIndex, router]);
   
   const navigateToNextSlide = () => {
+    if (!window.allSlidesData) return;
     const { allSlides, currentProjectStartIndex, totalSlides } = window.allSlidesData;
     const currentGlobalIndex = currentProjectStartIndex + currentSlideIndex;
     
@@ -207,6 +210,7 @@ export default function ProjectPage() {
   };
   
   const navigateToPreviousSlide = () => {
+    if (!window.allSlidesData) return;
     const { allSlides, currentProjectStartIndex } = window.allSlidesData;
     const currentGlobalIndex = currentProjectStartIndex + currentSlideIndex;
     
