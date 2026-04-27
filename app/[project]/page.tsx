@@ -116,8 +116,10 @@ export default function ProjectPage() {
   };
   
   const setCurrentProjectFromCache = () => {
+    if (!window.globalSlidesCache) return;
+    
     const projectSlug = params.project;
-    const foundProject = window.globalSlidesCache.projects.find(p => 
+    const foundProject = window.globalSlidesCache.projects.find((p: any) => 
       p.title.toLowerCase().replace(/\s+/g, '-') === projectSlug
     );
 
