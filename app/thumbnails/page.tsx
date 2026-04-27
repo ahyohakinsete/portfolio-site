@@ -6,12 +6,13 @@ import { useRouter } from 'next/navigation';
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default function Thumbnails() {
+  const [projects, setProjects] = useState<any[]>([]);
   const [allSlides, setAllSlides] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showNav, setShowNav] = useState(false);
-  const [hoveredNav, setHoveredNav] = useState(null);
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [showArrowHint, setShowArrowHint] = useState(false);
-  const [arrowHoverTimeout, setArrowHoverTimeout] = useState(null);
+  const [arrowHoverTimeout, setArrowHoverTimeout] = useState<NodeJS.Timeout | null>(null);
   const [fadeIn, setFadeIn] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -75,7 +76,7 @@ export default function Thumbnails() {
     setFadeIn(true);
     
     // Keyboard navigation
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowUp') {
         e.preventDefault();
         cyclePages();
