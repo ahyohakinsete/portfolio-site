@@ -443,9 +443,9 @@ export default function Thumbnails() {
           flexWrap: 'wrap',
           alignItems: 'flex-start'
         }}>
-          {allSlides.map((slide) => {
-            return (
-              slide.images.map((img) => (
+          {allSlides.map((slide: any) => {
+  return (
+    slide.images.map((img: any) => (
                 <div
                   key={img.id}
                   className="thumbnail-item"
