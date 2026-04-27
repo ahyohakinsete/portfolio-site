@@ -249,7 +249,7 @@ export default function ProjectPage() {
     setHoverState('counter');
   };
 
-  const handleSlideMouseMove = (e) => {
+  const handleSlideMouseMove = (e: React.MouseEvent) => {
     const windowWidth = window.innerWidth;
     const mouseX = e.clientX;
     
@@ -270,7 +270,7 @@ export default function ProjectPage() {
     setCursorVisible(false);
   };
 
-  const handleSlideClick = (e) => {
+  const handleSlideClick = (e: React.MouseEvent) => {
     const windowWidth = window.innerWidth;
     const mouseX = e.clientX;
     
