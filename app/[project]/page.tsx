@@ -643,6 +643,11 @@ export default function ProjectPage() {
           {hoverState === 'hint' && (
             <span>Use keyboard for navigation</span>
           )}
+          {hoverState === 'arrows' && (
+            <span style={{ letterSpacing: '0.5em' }}>
+              ← ↑ →
+            </span>
+          )}
         </div>
       </div>
 
