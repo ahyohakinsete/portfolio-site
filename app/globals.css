@@ -39,6 +39,15 @@ body {
   background-repeat: no-repeat;
 }
 
+/* Prevent flash during page transitions */
+@view-transition {
+  navigation: auto;
+}
+
+html {
+  view-transition-name: none;
+}
+
 /* Scale up on larger screens */
 @media (min-width: 1024px) {
   body {
