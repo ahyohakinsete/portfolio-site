@@ -648,7 +648,7 @@ export default function ProjectPage() {
             <span>Use keyboard for navigation</span>
           )}
           {hoverState === 'arrows' && (
-            <span style={{ letterSpacing: '0.25em' }}>
+            <span style={{ letterSpacing: '0.35em' }}>
               ←↑→
             </span>
           )}
