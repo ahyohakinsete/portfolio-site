@@ -227,20 +227,24 @@ export default function ProjectPage() {
   };
 
   const handleCounterHoverEnter = () => {
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-    }
+  if (hoverTimeout) {
+    clearTimeout(hoverTimeout);
+  }
 
-    setHoverState('hint');
+  setHoverState('hint');
+  
+  const timer1 = setTimeout(() => {
+    setHoverState('arrows');
     
-    const timer1 = setTimeout(() => {
+    const timer2 = setTimeout(() => {
       setHoverState('counter');
     }, 1000);
     
-    setHoverTimeout(timer1);
-    
-    setHoverTimeout(timer1);
-  };
+    setHoverTimeout(timer2);
+  }, 1000);
+  
+  setHoverTimeout(timer1);
+};
 
   const handleCounterHoverLeave = () => {
     if (hoverTimeout) {
