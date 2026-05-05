@@ -645,7 +645,7 @@ export default function ProjectPage() {
           )}
           {hoverState === 'arrows' && (
             <span style={{ letterSpacing: '0.5em' }}>
-              ← ↑ →
+              ←↑→
             </span>
           )}
         </div>
