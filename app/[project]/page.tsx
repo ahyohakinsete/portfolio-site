@@ -200,8 +200,9 @@ export default function ProjectPage() {
     if (currentSlideIndex === slides.length - 1) {
       if (currentGlobalIndex + 1 < totalSlides) {
         const nextSlide = allSlides[currentGlobalIndex + 1];
-        const nextProjectSlug = nextSlide.projectTitle?.toLowerCase().replace(/\s+/g, '-');
-        router.push(`/${nextProjectSlug}`);
+const nextProjectSlug = nextSlide.projectTitle?.toLowerCase().replace(/\s+/g, '-');
+setFadeOut(true);
+setTimeout(() => router.push(`/${nextProjectSlug}`), 1500);
       } else {
         router.push('/thumbnails');
       }
@@ -218,8 +219,9 @@ export default function ProjectPage() {
     if (currentSlideIndex === 0) {
       if (currentGlobalIndex > 0) {
         const prevSlide = allSlides[currentGlobalIndex - 1];
-        const prevProjectSlug = prevSlide.projectTitle?.toLowerCase().replace(/\s+/g, '-');
-        router.push(`/${prevProjectSlug}?slide=${prevSlide.orderInProject}`);
+const prevProjectSlug = prevSlide.projectTitle?.toLowerCase().replace(/\s+/g, '-');
+setFadeOut(true);
+setTimeout(() => router.push(`/${prevProjectSlug}?slide=${prevSlide.orderInProject}`), 1500);
       }
     } else {
       setCurrentSlideIndex((prev) => prev - 1);
