@@ -792,6 +792,8 @@ router.push(`/${prevProjectSlug}/${prevSlide.orderInProject + 1}`);
                   key={img.id}
                   style={{
                     gridColumn: `${Math.round(img.columnsLeft * 4) + 1} / span ${Math.round(img.columnsWide * 4)}`,
+                    gridRow: 1,
+                    alignSelf: 'center',
                     height: img.heightVh ? `${img.heightVh}vh` : undefined,
                     display: 'flex',
                     alignItems: 'center',
