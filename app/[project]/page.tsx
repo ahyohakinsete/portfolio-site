@@ -156,18 +156,20 @@ export default function ProjectPage() {
     setLoading(false);
   };
   
+  // Load the slide from the URL (/project/3 shows slide 3) once slides are available
   useEffect(() => {
-    if (slides.length > 0 && typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      const slideParam = urlParams.get('slide');
-      if (slideParam) {
-        const slideIndex = parseInt(slideParam);
-        if (!isNaN(slideIndex) && slideIndex >= 0 && slideIndex < slides.length) {
-          setCurrentSlideIndex(slideIndex);
-        }
-      }
-    }
-  }, [slides.length]);
+    if (slides.length === 0) return;
+    const n = parseInt(params.slide as string, 10);
+    const index = !isNaN(n) && n >= 1 && n <= slides.length ? n - 1 : 0;
+    setCurrentSlideIndex(index);
+    window.history.replaceState(null, '', `/${params.project}/${index + 1}`);
+  }, [slides, params.project, params.slide]);
+
+  // Change slide and keep the URL in step, so a refresh stays on the same slide
+  const goToSlide = (index: number) => {
+    setCurrentSlideIndex(index);
+    window.history.replaceState(null, '', `/${params.project}/${index + 1}`);
+  };
 
   useEffect(() => {
     if (slides.length === 0 || !window.allSlidesData) return;
@@ -201,12 +203,12 @@ export default function ProjectPage() {
       if (currentGlobalIndex + 1 < totalSlides) {
         const nextSlide = allSlides[currentGlobalIndex + 1];
 const nextProjectSlug = nextSlide.projectTitle?.toLowerCase().replace(/\s+/g, '-');
-router.push(`/${nextProjectSlug}`);
+router.push(`/${nextProjectSlug}/1`);
       } else {
         router.push('/thumbnails');
       }
     } else {
-      setCurrentSlideIndex((prev) => prev + 1);
+      goToSlide(currentSlideIndex + 1);
     }
   };
   
@@ -219,10 +221,10 @@ router.push(`/${nextProjectSlug}`);
       if (currentGlobalIndex > 0) {
         const prevSlide = allSlides[currentGlobalIndex - 1];
 const prevProjectSlug = prevSlide.projectTitle?.toLowerCase().replace(/\s+/g, '-');
-router.push(`/${prevProjectSlug}?slide=${prevSlide.orderInProject}`);
+router.push(`/${prevProjectSlug}/${prevSlide.orderInProject + 1}`);
       }
     } else {
-      setCurrentSlideIndex((prev) => prev - 1);
+      goToSlide(currentSlideIndex - 1);
     }
   };
 
@@ -781,15 +783,16 @@ router.push(`/${prevProjectSlug}?slide=${prevSlide.orderInProject}`);
             /* DESKTOP: 16-column grid */
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(16, 1fr)',
-              gap: '1rem',
+              gridTemplateColumns: 'repeat(64, 1fr)', // quarter-column steps
+              gap: '0',
               width: '100%'
             }}>
               {currentSlide.images.map((img: any) => (
                 <div
                   key={img.id}
                   style={{
-                    gridColumn: `${img.columnsLeft + 1} / span ${img.columnsWide}`,
+                    gridColumn: `${Math.round(img.columnsLeft * 4) + 1} / span ${Math.round(img.columnsWide * 4)}`,
+                    height: img.heightVh ? `${img.heightVh}vh` : undefined,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -800,7 +803,8 @@ router.push(`/${prevProjectSlug}?slide=${prevSlide.orderInProject}`);
                     alt={currentSlide.title}
                     style={{
                       width: '100%',
-                      height: 'auto',
+                      height: img.heightVh ? '100%' : 'auto',
+                      objectFit: img.heightVh ? 'cover' : undefined,
                       display: 'block'
                     }}
                   />
