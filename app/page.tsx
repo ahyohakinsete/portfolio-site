@@ -564,15 +564,15 @@ export default function Home() {
               {/* Slide Grid - 16 columns */}
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(16, 1fr)',
-                gap: '1rem',
+                gridTemplateColumns: 'repeat(64, 1fr)',
+                gap: '0',
                 width: '100%'
               }}>
                 {previewSlide.images.map((img: any) => (
                   <div
                     key={img.id}
                     style={{
-                      gridColumn: `${img.columnsLeft + 1} / span ${img.columnsWide}`,
+                      gridColumn: `${Math.round(img.columnsLeft * 4) + 1} / span ${Math.round(img.columnsWide * 4)}`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
