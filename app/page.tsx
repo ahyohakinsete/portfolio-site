@@ -585,9 +585,9 @@ export default function Home() {
       src={img.url}
       alt={previewSlide.title}
       style={{
-        width: '100%',
         height: img.heightVh ? '100%' : 'auto',
-        objectFit: img.heightVh ? 'cover' : undefined,
+        width: img.heightVh ? 'auto' : '100%',
+        maxWidth: '100%',
         display: 'block'
       }}
     />

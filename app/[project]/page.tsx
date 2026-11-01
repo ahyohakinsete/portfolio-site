@@ -788,30 +788,30 @@ router.push(`/${prevProjectSlug}/${prevSlide.orderInProject + 1}`);
               width: '100%'
             }}>
               {currentSlide.images.map((img: any) => (
-                <div
-                  key={img.id}
-                  style={{
-                    gridColumn: `${Math.round(img.columnsLeft * 4) + 1} / span ${Math.round(img.columnsWide * 4)}`,
-                    gridRow: 1,
-                    alignSelf: 'center',
-                    height: img.heightVh ? `${img.heightVh}vh` : undefined,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <img
-                    src={img.url}
-                    alt={currentSlide.title}
-                    style={{
-                      width: '100%',
-                      height: img.heightVh ? '100%' : 'auto',
-                      objectFit: img.heightVh ? 'cover' : undefined,
-                      display: 'block'
-                    }}
-                  />
-                </div>
-              ))}
+  <div
+    key={img.id}
+    style={{
+      gridColumn: `${Math.round(img.columnsLeft * 4) + 1} / span ${Math.round(img.columnsWide * 4)}`,
+      gridRow: 1,
+      alignSelf: 'center',
+      height: img.heightVh ? `${img.heightVh}vh` : undefined,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}
+  >
+    <img
+      src={img.url}
+      alt={currentSlide.title}
+      style={{
+        height: img.heightVh ? '100%' : 'auto',
+        width: img.heightVh ? 'auto' : '100%',
+        maxWidth: '100%',
+        display: 'block'
+      }}
+    />
+  </div>
+))}
             </div>
           )}
         </div>
