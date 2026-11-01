@@ -568,27 +568,31 @@ export default function Home() {
                 gap: '0',
                 width: '100%'
               }}>
-                {previewSlide.images.map((img: any) => (
-                  <div
-                    key={img.id}
-                    style={{
-                      gridColumn: `${Math.round(img.columnsLeft * 4) + 1} / span ${Math.round(img.columnsWide * 4)}`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <img
-                      src={img.url}
-                      alt={previewSlide.title}
-                      style={{
-                        width: '100%',
-                        height: 'auto',
-                        display: 'block'
-                      }}
-                    />
-                  </div>
-                ))}
+              {previewSlide.images.map((img: any) => (
+  <div
+    key={img.id}
+    style={{
+      gridColumn: `${Math.round(img.columnsLeft * 4) + 1} / span ${Math.round(img.columnsWide * 4)}`,
+      gridRow: 1,
+      alignSelf: 'center',
+      height: img.heightVh ? `${img.heightVh}vh` : undefined,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}
+  >
+    <img
+      src={img.url}
+      alt={previewSlide.title}
+      style={{
+        width: '100%',
+        height: img.heightVh ? '100%' : 'auto',
+        objectFit: img.heightVh ? 'cover' : undefined,
+        display: 'block'
+      }}
+    />
+  </div>
+))}
               </div>
             </div>
           </div>
