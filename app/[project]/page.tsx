@@ -120,7 +120,7 @@ export default function ProjectPage() {
     
     const projectSlug = params.project;
     const foundProject = window.globalSlidesCache.projects.find((p: any) => 
-      p.title.toLowerCase().replace(/\s+/g, '-') === projectSlug
+      p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') === projectSlug
     );
 
     if (!foundProject) {
@@ -202,7 +202,7 @@ export default function ProjectPage() {
     if (currentSlideIndex === slides.length - 1) {
       if (currentGlobalIndex + 1 < totalSlides) {
         const nextSlide = allSlides[currentGlobalIndex + 1];
-const nextProjectSlug = nextSlide.projectTitle?.toLowerCase().replace(/\s+/g, '-');
+const nextProjectSlug = nextSlide.projectTitle?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 router.push(`/${nextProjectSlug}/1`);
       } else {
         router.push('/thumbnails');
@@ -220,7 +220,7 @@ router.push(`/${nextProjectSlug}/1`);
     if (currentSlideIndex === 0) {
       if (currentGlobalIndex > 0) {
         const prevSlide = allSlides[currentGlobalIndex - 1];
-const prevProjectSlug = prevSlide.projectTitle?.toLowerCase().replace(/\s+/g, '-');
+const prevProjectSlug = prevSlide.projectTitle?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 router.push(`/${prevProjectSlug}/${prevSlide.orderInProject + 1}`);
       }
     } else {

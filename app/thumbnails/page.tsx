@@ -101,7 +101,7 @@ export default function Thumbnails() {
         project.slides.map((slide: any) => ({
           ...slide,
           projectTitle: project.title,
-          projectSlug: project.title.toLowerCase().replace(/\s+/g, '-')
+          projectSlug: project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
         }))
       );
       

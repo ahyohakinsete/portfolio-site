@@ -152,7 +152,7 @@ export default function Home() {
     
     // Wait for fade out animation to complete, then navigate
     setTimeout(() => {
-      router.push(`/${project.title.toLowerCase().replace(/\s+/g, '-')}`);
+      router.push(`/${project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`);
     }, 1500); // Match the transition duration
   };
 
