@@ -806,7 +806,7 @@ router.push(`/${prevProjectSlug}/${prevSlide.orderInProject + 1}`);
       style={{
         height: img.heightVh ? '100%' : 'auto',
         width: img.heightVh ? 'auto' : '100%',
-        maxWidth: '100%',
+        
         display: 'block'
       }}
     />
