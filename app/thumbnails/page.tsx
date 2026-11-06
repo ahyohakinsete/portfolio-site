@@ -97,13 +97,14 @@ export default function Thumbnails() {
       const data = await response.json();
 
       // Flatten all slides from all projects
-      const flattenedSlides = data.projects.flatMap((project: any) =>  
-        project.slides.map((slide: any) => ({
-          ...slide,
-          projectTitle: project.title,
-          projectSlug: project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
-        }))
-      );
+      const flattenedSlides = data.projects.flatMap((project: any) =>
+  project.slides.map((slide: any, idx: number) => ({
+    ...slide,
+    projectTitle: project.title,
+    projectSlug: project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
+    slideNumber: idx + 1
+  }))
+);
       
       setAllSlides(flattenedSlides);
       setLoading(false);
@@ -114,15 +115,11 @@ export default function Thumbnails() {
   };
 
   const handleSlideClick = (slide: any) => {
-    // Trigger fade out
-    setFadeOut(true);
-    
-    // Wait for fade out animation to complete, then navigate
-    setTimeout(() => {
-      // Navigate to project with slide position (0-indexed)
-      router.push(`/${slide.projectSlug}?slide=${slide.position}`);
-    }, 1500);
-  };
+  setFadeOut(true);
+  setTimeout(() => {
+    router.push(`/${slide.projectSlug}/${slide.slideNumber}`);
+  }, 1500);
+};
 
   if (loading) {
     return (
