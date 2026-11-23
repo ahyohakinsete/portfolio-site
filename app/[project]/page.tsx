@@ -69,11 +69,18 @@ function MobileSlideRow({ images, title }: { images: any[]; title: string }) {
   );
 }
 
+const getCachedProject = (slug: any) => {
+  if (typeof window === 'undefined' || !window.globalSlidesCache) return null;
+  return window.globalSlidesCache.projects.find((p: any) =>
+    p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') === slug
+  ) || null;
+};
+
 export default function ProjectPage() {
   const params = useParams();
   const router = useRouter();
-  const [project, setProject] = useState<any>(null);
-  const [slides, setSlides] = useState<any[]>([]);
+  const [project, setProject] = useState<any>(() => getCachedProject(params.project));
+const [slides, setSlides] = useState<any[]>(() => getCachedProject(params.project)?.slides ?? []);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [showNav, setShowNav] = useState(false);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
@@ -108,7 +115,6 @@ export default function ProjectPage() {
   const loadAllData = async () => {
     try {
       if (window.globalSlidesCache) {
-        console.log('Using cached data');
         setCurrentProjectFromCache();
         return;
       }
