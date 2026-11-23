@@ -69,10 +69,13 @@ function MobileSlideRow({ images, title }: { images: any[]; title: string }) {
   );
 }
 
+const slugOf = (title: string) =>
+  title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
 const getCachedProject = (slug: any) => {
   if (typeof window === 'undefined' || !window.globalSlidesCache) return null;
   return window.globalSlidesCache.projects.find((p: any) =>
-    p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') === slug
+    slugOf(p.title) === slug
   ) || null;
 };
 
@@ -225,9 +228,11 @@ const [slides, setSlides] = useState<any[]>(() => getCachedProject(params.projec
     setLoading(false);
   };
   
-  // Load the slide from the URL (/project/3 shows slide 3) once slides are available
+    // Load the slide from the URL (/project/3 shows slide 3) once, on first load
+  const initialised = useRef(false);
   useEffect(() => {
-    if (slides.length === 0) return;
+    if (initialised.current || slides.length === 0) return;
+    initialised.current = true;
     const n = parseInt(params.slide as string, 10);
     const index = !isNaN(n) && n >= 1 && n <= slides.length ? n - 1 : 0;
     setCurrentSlideIndex(index);
@@ -239,7 +244,26 @@ const [slides, setSlides] = useState<any[]>(() => getCachedProject(params.projec
     setCurrentSlideIndex(index);
     window.history.replaceState(null, '', `/${params.project}/${index + 1}`);
   };
-
+const switchToSlide = (projectSlug: string, slideNumber: number) => {
+  const cache = window.globalSlidesCache;
+  if (!cache) return;
+  const found = cache.projects.find((p: any) => slugOf(p.title) === projectSlug);
+  if (!found || found.slides.length === 0) return;
+  const n = Math.min(Math.max(slideNumber, 1), found.slides.length);
+  const startIdx = cache.allSlides.findIndex((s: any) =>
+    s.projectId === found.id && s.id === found.slides[0]?.id
+  );
+  window.allSlidesData = {
+    allSlides: cache.allSlides,
+    totalSlides: cache.totalSlides,
+    currentProjectStartIndex: startIdx,
+    currentGlobalIndex: startIdx + n - 1
+  };
+  setProject(found);
+  setSlides(found.slides);
+  setCurrentSlideIndex(n - 1);
+  window.history.replaceState(null, '', `/${projectSlug}/${n}`);
+};
   useEffect(() => {
     if (slides.length === 0 || !window.allSlidesData) return;
     
@@ -272,7 +296,7 @@ const [slides, setSlides] = useState<any[]>(() => getCachedProject(params.projec
       if (currentGlobalIndex + 1 < totalSlides) {
         const nextSlide = allSlides[currentGlobalIndex + 1];
 const nextProjectSlug = nextSlide.projectTitle?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-router.push(`/${nextProjectSlug}/1`);
+switchToSlide(nextProjectSlug, 1);
       } else {
         router.push('/thumbnails');
       }
@@ -290,7 +314,7 @@ router.push(`/${nextProjectSlug}/1`);
       if (currentGlobalIndex > 0) {
         const prevSlide = allSlides[currentGlobalIndex - 1];
 const prevProjectSlug = prevSlide.projectTitle?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-router.push(`/${prevProjectSlug}/${prevSlide.orderInProject + 1}`);
+switchToSlide(prevProjectSlug, prevSlide.orderInProject + 1);
       }
     } else {
       goToSlide(currentSlideIndex - 1);
