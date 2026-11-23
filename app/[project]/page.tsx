@@ -1,10 +1,73 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 const GRID_COLUMNS = 16;
+
+function MobileSlideRow({ images, title }: { images: any[]; title: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [viewport, setViewport] = useState({ width: 0, height: 0 });
+  const [aspects, setAspects] = useState<Record<string, number>>({});
+  const gap = 16;
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const update = () => setViewport({ width: el.clientWidth, height: window.innerHeight });
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const onLoad = (id: string, e: React.SyntheticEvent<HTMLImageElement>) => {
+    const { naturalWidth, naturalHeight } = e.currentTarget;
+    if (!naturalWidth || !naturalHeight) return;
+    setAspects(prev => ({ ...prev, [id]: naturalWidth / naturalHeight }));
+  };
+
+  const ready = images.every(img => aspects[img.id]);
+  const totalAspect = images.reduce((sum, img) => sum + (aspects[img.id] || 1), 0);
+  const availableWidth = Math.max(0, viewport.width - gap * (images.length - 1));
+  const fitHeight = availableWidth / totalAspect;
+  const lockedHeight = images[0]?.heightVh && viewport.height
+    ? (images[0].heightVh / 100) * viewport.height
+    : Infinity;
+  const height = Math.min(fitHeight, lockedHeight);
+
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: `${gap}px`,
+        opacity: ready ? 1 : 0,
+        transition: 'opacity 0.3s ease'
+      }}
+    >
+      {images.map((img: any) => (
+        <img
+          key={img.id}
+          src={img.url}
+          alt={title}
+          onLoad={e => onLoad(img.id, e)}
+          style={{
+            height: `${height}px`,
+            width: 'auto',
+            display: 'block',
+            flexShrink: 0
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function ProjectPage() {
   const params = useParams();
@@ -744,42 +807,10 @@ router.push(`/${prevProjectSlug}/${prevSlide.orderInProject + 1}`);
           maxWidth: '1400px'
         }}>
           {isMobile ? (
-            /* MOBILE: 2-column grid */
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '1rem',
-              width: '100%'
-            }}>
-              {currentSlide.images.map((img: any) => {
-                const isSingleImage = currentSlide.images.length === 1;
-                const mobileColumnsLeft = isSingleImage ? 0 : Math.floor(img.columnsLeft / 8);
-                const mobileColumnsWide = isSingleImage ? 2 : Math.max(1, Math.ceil(img.columnsWide / 8));
-                
-                return (
-                  <div
-                    key={img.id}
-                    style={{
-                      gridColumn: `${mobileColumnsLeft + 1} / span ${mobileColumnsWide}`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <img
-                      src={img.url}
-                      alt={currentSlide.title}
-                      style={{
-                        width: '100%',
-                        height: 'auto',
-                        display: 'block'
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
+  <MobileSlideRow images={currentSlide.images} title={currentSlide.title} />
+) : (
+              
+          
             /* DESKTOP: 16-column grid */
             <div style={{
               display: 'grid',
